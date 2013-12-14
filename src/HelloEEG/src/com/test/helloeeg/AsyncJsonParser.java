@@ -33,91 +33,107 @@ import android.util.Log;
 
 public class AsyncJsonParser extends AsyncTask<String, Void, JSONObject> {
 
-        static InputStream is = null;
-        public JSONObject jObj = null;
-        public String json = "";
-        private List<NameValuePair> params = new ArrayList<NameValuePair>();
-        private EEGActivity caller;
+	static InputStream is = null;
+	public JSONObject jObj = null;
+	public String json = "";
+	private List<NameValuePair> params = new ArrayList<NameValuePair>();
+	private EEGActivity caller;
+	private EEGIntentService eegServiceCaller;
 
-        // default constructor, includes caller for preferences access
-        public AsyncJsonParser(EEGActivity caller) {
-                this.caller = caller;
-        }
-        
-        @Override
-        protected JSONObject doInBackground(String... urls) {
+	// default constructor, includes caller for preferences access
+	public AsyncJsonParser(EEGActivity caller) {
+		this.caller = caller;
+	}
 
-                String url = urls[0];
-                
-                //Get the user's information from preferences
-                SharedPreferences pref = caller.getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-                String auth = pref.getString("HTTP_AUTHORIZATION", null);
-                addParameter("HTTP_AUTHORIZATION", auth);        
-                
+	public AsyncJsonParser(EEGIntentService eegIntentService) {
+		// TODO Auto-generated constructor stub
+		this.eegServiceCaller = eegIntentService;
+	}
 
-                // Making HTTP request
-                try {
-                        // defaultHttpClient
-                        DefaultHttpClient httpClient = new DefaultHttpClient();
+	@Override
+	protected JSONObject doInBackground(String... urls) {
 
-                        // create post request and populate it
-                        HttpPost httpPost = new HttpPost(url);
-                        UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params,
-                                        "UTF-8");
-                        httpPost.setEntity(entity);
+		String url = urls[0];
 
-                        // make the query to the server
-                        HttpResponse httpResponse = httpClient.execute(httpPost);
-                        HttpEntity httpEntity = httpResponse.getEntity();
-                        is = httpEntity.getContent();
+		// Get the user's information from preferences
+		SharedPreferences pref;
+		if (caller != null) {
+			pref = caller.getApplicationContext().getSharedPreferences(
+					"MyPref", 0); // 0 - for private mode }
+		} else {
+			pref = eegServiceCaller.getApplicationContext()
+					.getSharedPreferences("MyPref", 0); // 0 - for private mode
+														// }
+		}
 
-                } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                } catch (ClientProtocolException e) {
-                        e.printStackTrace();
-                } catch (IOException e) {
-                        e.printStackTrace();
-                }
+		String auth = pref.getString("HTTP_AUTHORIZATION", null);
+		addParameter("HTTP_AUTHORIZATION", auth);
 
-                try {
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(
-                                        is, "iso-8859-1"), 8);
-                        StringBuilder sb = new StringBuilder();
-                        String line = null;
-                        while ((line = reader.readLine()) != null) {
-                                sb.append(line + "\n");
-                        }
-                        is.close();
-                        json = sb.toString();
-                } catch (Exception e) {
-                        Log.e("Buffer Error", "Error converting result " + e.toString());
-                }
+		// Making HTTP request
+		try {
+			// defaultHttpClient
+			DefaultHttpClient httpClient = new DefaultHttpClient();
 
-                // try parse the string to a JSON object
-                try {
-                        jObj = new JSONObject(json);
-                } catch (JSONException e) {
-                        Log.e("JSON Parser", "Error parsing data " + e.toString());
-                }
-                Log.v("JSON Parser", jObj.toString());
+			// create post request and populate it
+			HttpPost httpPost = new HttpPost(url);
+			UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params,
+					"UTF-8");
+			httpPost.setEntity(entity);
 
-                Message msg = new Message();
-                msg.obj = jObj;
-                caller.mHandler.sendMessage(msg);
-                
-                //Dummy return isn't used.
-                return null;
-        }
-        
-        
+			// make the query to the server
+			HttpResponse httpResponse = httpClient.execute(httpPost);
+			HttpEntity httpEntity = httpResponse.getEntity();
+			is = httpEntity.getContent();
 
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-        // Methods for setting the parameters of the post request.
-        public void addParameter(String name, String value) {
-                params.add(new EegNVP(name, value));
-        }        
-        public void setParams(List<NameValuePair> params){
-                this.params = params;
-        }
+		try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					is, "iso-8859-1"), 8);
+			StringBuilder sb = new StringBuilder();
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				sb.append(line + "\n");
+			}
+			is.close();
+			json = sb.toString();
+		} catch (Exception e) {
+			Log.e("Buffer Error", "Error converting result " + e.toString());
+		}
+
+		// try parse the string to a JSON object
+		try {
+			jObj = new JSONObject(json);
+		} catch (JSONException e) {
+			Log.e("JSON Parser", "Error parsing data " + e.toString());
+		}
+		Log.v("JSON Parser", jObj.toString());
+
+		Message msg = new Message();
+		msg.obj = jObj;
+		if (caller != null) {
+			caller.mHandler.sendMessage(msg);
+		} else if (eegServiceCaller != null) {
+			eegServiceCaller.mHandler.sendMessage(msg);
+		}
+
+		// Dummy return isn't used.
+		return null;
+	}
+
+	// Methods for setting the parameters of the post request.
+	public void addParameter(String name, String value) {
+		params.add(new EegNVP(name, value));
+	}
+
+	public void setParams(List<NameValuePair> params) {
+		this.params = params;
+	}
 
 }
