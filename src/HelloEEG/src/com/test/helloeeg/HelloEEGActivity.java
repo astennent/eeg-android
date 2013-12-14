@@ -108,6 +108,20 @@ public class HelloEEGActivity extends Activity {
             case TGDevice.MSG_RAW_MULTI:
             	//TGRawMulti rawM = (TGRawMulti)msg.obj;
             	//tv.append("Raw1: " + rawM.ch1 + "\nRaw2: " + rawM.ch2);
+            case TGDevice.MSG_EEG_POWER:
+            	TGEegPower ep = (TGEegPower) msg.obj;
+            	Log.i("B4A", "Delta: " + ep.delta);
+            	int DELTA = ep.delta;
+            	int HIGHALPHA = ep.highAlpha;
+            	int HIGHBETA = ep.highBeta;
+            	int LOWALPHA = ep.lowAlpha;
+            	int LOWBETA = ep.lowBeta;
+            	int LOWGAMMA = ep.lowGamma;
+            	int MIDGAMMA = ep.midGamma;
+            	int THETA = ep.theta;
+            	tv.append("DELTA: " + DELTA + "\n" + "HIGHALPHA: " + HIGHALPHA + "\n" + "LOWALPHA: " + LOWALPHA + "\n"
+            			+ "HIGHBETA: " + HIGHBETA + "\n" + "LOWBETA: " + LOWBETA + "\n" + "MIDGAMMA: " + MIDGAMMA + "\n"
+            			+ "THETA: " + THETA + "\n");
             default:
             	break;
         }
