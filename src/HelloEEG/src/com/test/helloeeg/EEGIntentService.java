@@ -104,6 +104,7 @@ public class EEGIntentService extends IntentService {
 	};
 	BluetoothAdapter bluetoothAdapter;
 	TGDevice tgDevice;
+	int outlier = 16000000;
 
 	@SuppressLint("HandlerLeak")
 	public int onStartCommand(Intent intent, int flags, int startId) {
@@ -145,28 +146,43 @@ public class EEGIntentService extends IntentService {
 			int LOWBETA, int LOWGAMMA, int MIDGAMMA, int THETA) {
 
 		AsyncJsonParser sendBrainwave = new AsyncJsonParser(this);
-		sendBrainwave.addParameter("DELTA", String.valueOf(DELTA));
-		sendBrainwave.addParameter("HIGHALPHA", String.valueOf(HIGHALPHA));
-		sendBrainwave.addParameter("HIGHBETA", String.valueOf(HIGHBETA));
-		sendBrainwave.addParameter("LOWALPHA", String.valueOf(LOWALPHA));
-		sendBrainwave.addParameter("LOWBETA", String.valueOf(LOWBETA));
-		sendBrainwave.addParameter("LOWGAMMA", String.valueOf(LOWGAMMA));
-		sendBrainwave.addParameter("MIDGAMMA", String.valueOf(MIDGAMMA));
-		sendBrainwave.addParameter("THETA", String.valueOf(THETA));
+		if (DELTA < outlier) {
+			sendBrainwave.addParameter("DELTA", String.valueOf(DELTA));
+			WaveData.DELTA = DELTA;
+		}
+		if (HIGHALPHA < outlier) {
+			sendBrainwave.addParameter("HIGHALPHA", String.valueOf(HIGHALPHA));
+			WaveData.HIGH_ALPHA = HIGHALPHA;
+		}
+		if (HIGHBETA < outlier) {
+			sendBrainwave.addParameter("HIGHBETA", String.valueOf(HIGHBETA));
+			WaveData.HIGH_BETA = HIGHBETA;
+		}
+		if (LOWALPHA < outlier) {
+			sendBrainwave.addParameter("LOWALPHA", String.valueOf(LOWALPHA));
+			WaveData.LOW_ALPHA = LOWALPHA;
+		}
+		if (LOWBETA < outlier) {
+			sendBrainwave.addParameter("LOWBETA", String.valueOf(LOWBETA));
+			WaveData.LOW_BETA = LOWBETA;
+		}
+		if (LOWGAMMA < outlier) {
+			sendBrainwave.addParameter("LOWGAMMA", String.valueOf(LOWGAMMA));
+			WaveData.LOW_GAMMA = LOWGAMMA;
+		}
+		if (MIDGAMMA < outlier) {
+			sendBrainwave.addParameter("MIDGAMMA", String.valueOf(MIDGAMMA));
+			WaveData.MID_GAMMA = MIDGAMMA;
+		}
+		if (THETA < outlier) {
+			sendBrainwave.addParameter("THETA", String.valueOf(THETA));
+			WaveData.THETA = THETA;
+		}
 		sendBrainwave.addParameter("EMOTION", WaveData.EMOTION);
-		Log.d("EMOTION1", WaveData.EMOTION);
+		//Log.d("EMOTION1", WaveData.EMOTION);
 		sendBrainwave.execute(EegURLs.POST_DATA);
-
-		WaveData.DELTA = DELTA;
-		WaveData.HIGH_ALPHA = HIGHALPHA;
-		WaveData.LOW_ALPHA = LOWALPHA;
-		WaveData.HIGH_BETA = HIGHBETA;
-		WaveData.LOW_BETA = HIGHBETA;
-		WaveData.MID_GAMMA = MIDGAMMA;
-		WaveData.LOW_GAMMA = LOWGAMMA;
-		WaveData.THETA = THETA;
 		WaveData.EMOTION = "";
-		Log.d("EMOTION2", WaveData.EMOTION);
+		//Log.d("EMOTION2", WaveData.EMOTION);
 	}
 
 	public EEGIntentService(String name) {
