@@ -65,6 +65,7 @@ public class MenuActivity extends EEGActivity {
 		graphView.addSeries(lowGamma);
 		graphView.addSeries(midGamma);
 		graphView.addSeries(theta);
+		graphView.getGraphViewStyle().setTextSize(15);
 		graphView.setHorizontalLabels(new String[] {"5 ago", "4 ago", "3 ago", "2 ago", "1 ago"});  
 		graphView.setCustomLabelFormatter(new CustomLabelFormatter() {  
 			   @Override

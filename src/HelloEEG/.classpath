@@ -6,6 +6,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry exported="true" kind="lib" path="libs/ThinkGear.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Sami/Documents/GitHub/eeg-android/src/HelloEEG/libs/graphview-3.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/rjnovak/Documents/GitHub/eeg-android/src/HelloEEG/libs/graphview-3.1.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

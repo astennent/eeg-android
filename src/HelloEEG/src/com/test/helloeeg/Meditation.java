@@ -26,8 +26,8 @@ public class Meditation extends Activity {
 		//getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		this.mGLSurfaceView =  (GLSurfaceView) findViewById(R.id.surfaceviewclass);
-		score = (TextView) findViewById(R.id.score);
-		score.setText("Score: ");
+		//score = (TextView) findViewById(R.id.score);
+		//score.setText("Score: ");
 
 
 		//mGLSurfaceView = new GLSurfaceView(this);
