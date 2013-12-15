@@ -44,6 +44,10 @@
             android:name="com.test.helloeeg.MinigamesActivity"
             android:label="@string/title_activity_minigames" >
         </activity>
+        <activity
+            android:name="com.test.helloeeg.Meditation"
+            android:label="@string/title_activity_meditation" >
+        </activity>
     </application>
 
 </manifest>
