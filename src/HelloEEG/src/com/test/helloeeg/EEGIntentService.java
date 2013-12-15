@@ -25,8 +25,7 @@ public class EEGIntentService extends IntentService {
 	public Handler mBluetoothHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			Log.v("blah", "y");
-
+			//Log.v("blah", "y");
 			switch (msg.what) {
 			case TGDevice.MSG_STATE_CHANGE:
 
@@ -102,7 +101,7 @@ public class EEGIntentService extends IntentService {
 				break;
 			}
 		}
-	};;
+	};
 	BluetoothAdapter bluetoothAdapter;
 	TGDevice tgDevice;
 
@@ -115,16 +114,9 @@ public class EEGIntentService extends IntentService {
 			// Alert user that Bluetooth is not available
 			Toast.makeText(this, "Bluetooth not available", Toast.LENGTH_LONG)
 					.show();
-			//Log.e("blah","bluetooth not available");
-
-
 		} else {
-			/* create the TGDevice */
-			//Log.e("blah","bluetooth IS available");
-
 			tgDevice = new TGDevice(bluetoothAdapter, mBluetoothHandler);
 			tgDevice.connect(false);   
-
 		}
 
 		mHandler = new Handler() {
@@ -145,8 +137,7 @@ public class EEGIntentService extends IntentService {
 
 			}
 		};
-		Log.v("blah", "x");
-		
+		//Log.v("blah", "x");
 		return super.onStartCommand(intent, flags, startId);
 	}
 
@@ -162,9 +153,20 @@ public class EEGIntentService extends IntentService {
 		sendBrainwave.addParameter("LOWGAMMA", String.valueOf(LOWGAMMA));
 		sendBrainwave.addParameter("MIDGAMMA", String.valueOf(MIDGAMMA));
 		sendBrainwave.addParameter("THETA", String.valueOf(THETA));
+		sendBrainwave.addParameter("EMOTION", WaveData.EMOTION);
+		Log.d("EMOTION1", WaveData.EMOTION);
 		sendBrainwave.execute(EegURLs.POST_DATA);
 
-		WaveData.HIGH_ALPHA = HIGHALPHA;// FINISH FOR LATER
+		WaveData.DELTA = DELTA;
+		WaveData.HIGH_ALPHA = HIGHALPHA;
+		WaveData.LOW_ALPHA = LOWALPHA;
+		WaveData.HIGH_BETA = HIGHBETA;
+		WaveData.LOW_BETA = HIGHBETA;
+		WaveData.MID_GAMMA = MIDGAMMA;
+		WaveData.LOW_GAMMA = LOWGAMMA;
+		WaveData.THETA = THETA;
+		WaveData.EMOTION = "";
+		Log.d("EMOTION2", WaveData.EMOTION);
 	}
 
 	public EEGIntentService(String name) {
@@ -180,8 +182,7 @@ public class EEGIntentService extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		// TODO Auto-generated method stub
-		Log.v("INTENTSERVICE", "starting");
-
+		//Log.v("INTENT SERVICE", "starting");
 	}
 
 }
