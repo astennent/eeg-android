@@ -122,8 +122,11 @@ public class LoginActivity extends EEGActivity {
 	
 	private void launchMenuActivity() {
 		Log.v("INTENTSERVICE", "launching?");
-		Intent intent = new Intent(this, EEGIntentService.class);
-		startService(intent);
+		Intent serviceIntent = new Intent(this, EEGIntentService.class);
+		startService(serviceIntent);
+		Intent activityIntent = new Intent(this, MenuActivity.class);
+		startActivity(activityIntent);
+		finish();
 	}
 	
 	@Override

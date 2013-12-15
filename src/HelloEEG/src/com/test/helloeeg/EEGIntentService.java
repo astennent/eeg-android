@@ -115,12 +115,12 @@ public class EEGIntentService extends IntentService {
 			// Alert user that Bluetooth is not available
 			Toast.makeText(this, "Bluetooth not available", Toast.LENGTH_LONG)
 					.show();
-			Log.e("blah","bluetooth not available");
+			//Log.e("blah","bluetooth not available");
 
 
 		} else {
 			/* create the TGDevice */
-			Log.e("blah","bluetooth IS available");
+			//Log.e("blah","bluetooth IS available");
 
 			tgDevice = new TGDevice(bluetoothAdapter, mBluetoothHandler);
 			tgDevice.connect(false);   
@@ -173,7 +173,7 @@ public class EEGIntentService extends IntentService {
 	}
 
 	public EEGIntentService() {
-		super("BLUH");
+		super("EEGIntentService");
 		// TODO Auto-generated constructor stub
 	}
 

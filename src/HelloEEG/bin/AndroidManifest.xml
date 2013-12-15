@@ -26,10 +26,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
-        	android:name="com.test.helloeeg.EEGIntentService"
-            android:exported="false">
+            android:name="com.test.helloeeg.EEGIntentService"
+            android:exported="false" >
         </service>
+
+        <activity
+            android:name="com.test.helloeeg.MenuActivity"
+            android:label="@string/title_activity_menu" >
+        </activity>
+        <activity
+            android:name="com.test.helloeeg.EmotionsActivity"
+            android:label="@string/title_activity_emotions" >
+        </activity>
+        <activity
+            android:name="com.test.helloeeg.MinigamesActivity"
+            android:label="@string/title_activity_minigames" >
+        </activity>
     </application>
 
 </manifest>
