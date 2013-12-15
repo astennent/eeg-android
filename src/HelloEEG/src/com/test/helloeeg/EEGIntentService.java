@@ -25,8 +25,7 @@ public class EEGIntentService extends IntentService {
 	public Handler mBluetoothHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			Log.v("blah", "y");
-
+			//Log.v("blah", "y");
 			switch (msg.what) {
 			case TGDevice.MSG_STATE_CHANGE:
 
@@ -102,9 +101,10 @@ public class EEGIntentService extends IntentService {
 				break;
 			}
 		}
-	};;
+	};
 	BluetoothAdapter bluetoothAdapter;
 	TGDevice tgDevice;
+	int outlier = 16000000;
 
 	@SuppressLint("HandlerLeak")
 	public int onStartCommand(Intent intent, int flags, int startId) {
@@ -115,16 +115,9 @@ public class EEGIntentService extends IntentService {
 			// Alert user that Bluetooth is not available
 			Toast.makeText(this, "Bluetooth not available", Toast.LENGTH_LONG)
 					.show();
-			//Log.e("blah","bluetooth not available");
-
-
 		} else {
-			/* create the TGDevice */
-			//Log.e("blah","bluetooth IS available");
-
 			tgDevice = new TGDevice(bluetoothAdapter, mBluetoothHandler);
 			tgDevice.connect(false);   
-
 		}
 
 		mHandler = new Handler() {
@@ -145,34 +138,52 @@ public class EEGIntentService extends IntentService {
 
 			}
 		};
-		Log.v("blah", "x");
-		
+		//Log.v("blah", "x");
 		return super.onStartCommand(intent, flags, startId);
 	}
 
-	void sendBrainwaves(int delta, int highalpha, int highbeta, int lowalpha,
-			int lowbeta, int lowgamma, int midgamma, int theta) {
+	void sendBrainwaves(int DELTA, int HIGHALPHA, int HIGHBETA, int LOWALPHA,
+			int LOWBETA, int LOWGAMMA, int MIDGAMMA, int THETA) {
 
 		AsyncJsonParser sendBrainwave = new AsyncJsonParser(this);
-		sendBrainwave.addParameter("DELTA", String.valueOf(delta));
-		sendBrainwave.addParameter("HIGHALPHA", String.valueOf(highalpha));
-		sendBrainwave.addParameter("HIGHBETA", String.valueOf(highbeta));
-		sendBrainwave.addParameter("LOWALPHA", String.valueOf(lowalpha));
-		sendBrainwave.addParameter("LOWBETA", String.valueOf(lowbeta));
-		sendBrainwave.addParameter("LOWGAMMA", String.valueOf(lowgamma));
-		sendBrainwave.addParameter("MIDGAMMA", String.valueOf(midgamma));
-		sendBrainwave.addParameter("THETA", String.valueOf(theta));
+
+		if (DELTA < outlier) {
+			sendBrainwave.addParameter("DELTA", String.valueOf(DELTA));
+			WaveData.DELTA = DELTA;
+		}
+		if (HIGHALPHA < outlier) {
+			sendBrainwave.addParameter("HIGHALPHA", String.valueOf(HIGHALPHA));
+			WaveData.HIGH_ALPHA = HIGHALPHA;
+		}
+		if (HIGHBETA < outlier) {
+			sendBrainwave.addParameter("HIGHBETA", String.valueOf(HIGHBETA));
+			WaveData.HIGH_BETA = HIGHBETA;
+		}
+		if (LOWALPHA < outlier) {
+			sendBrainwave.addParameter("LOWALPHA", String.valueOf(LOWALPHA));
+			WaveData.LOW_ALPHA = LOWALPHA;
+		}
+		if (LOWBETA < outlier) {
+			sendBrainwave.addParameter("LOWBETA", String.valueOf(LOWBETA));
+			WaveData.LOW_BETA = LOWBETA;
+		}
+		if (LOWGAMMA < outlier) {
+			sendBrainwave.addParameter("LOWGAMMA", String.valueOf(LOWGAMMA));
+			WaveData.LOW_GAMMA = LOWGAMMA;
+		}
+		if (MIDGAMMA < outlier) {
+			sendBrainwave.addParameter("MIDGAMMA", String.valueOf(MIDGAMMA));
+			WaveData.MID_GAMMA = MIDGAMMA;
+		}
+		if (THETA < outlier) {
+			sendBrainwave.addParameter("THETA", String.valueOf(THETA));
+			WaveData.THETA = THETA;
+		}
+		sendBrainwave.addParameter("EMOTION", WaveData.EMOTION);
+		//Log.d("EMOTION1", WaveData.EMOTION);
 		sendBrainwave.execute(EegURLs.POST_DATA);
-		
-		WaveData.DELTA = delta;
-		WaveData.HIGH_ALPHA = highalpha;
-		WaveData.HIGH_BETA = highbeta;
-		WaveData.LOW_ALPHA = lowalpha;
-		WaveData.LOW_BETA = lowbeta;
-		WaveData.LOW_GAMMA = lowgamma;
-		WaveData.MID_GAMMA = midgamma;
-		WaveData.THETA = theta;
-		
+		WaveData.EMOTION = "";
+		//Log.d("EMOTION2", WaveData.EMOTION);
 	}
 
 	public EEGIntentService(String name) {
@@ -188,8 +199,7 @@ public class EEGIntentService extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		// TODO Auto-generated method stub
-		Log.v("INTENTSERVICE", "starting");
-
+		//Log.v("INTENT SERVICE", "starting");
 	}
 
 }

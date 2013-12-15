@@ -3,9 +3,6 @@ package com.test.helloeeg;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import se.jayway.opengl.tutorial.OpenGLRenderer;
-import se.jayway.opengl.tutorial.R;
-import se.jayway.opengl.tutorial.TutorialPartIII;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.SystemClock;
