@@ -150,21 +150,29 @@ public class EEGIntentService extends IntentService {
 		return super.onStartCommand(intent, flags, startId);
 	}
 
-	void sendBrainwaves(int DELTA, int HIGHALPHA, int HIGHBETA, int LOWALPHA,
-			int LOWBETA, int LOWGAMMA, int MIDGAMMA, int THETA) {
+	void sendBrainwaves(int delta, int highalpha, int highbeta, int lowalpha,
+			int lowbeta, int lowgamma, int midgamma, int theta) {
 
 		AsyncJsonParser sendBrainwave = new AsyncJsonParser(this);
-		sendBrainwave.addParameter("DELTA", String.valueOf(DELTA));
-		sendBrainwave.addParameter("HIGHALPHA", String.valueOf(HIGHALPHA));
-		sendBrainwave.addParameter("HIGHBETA", String.valueOf(HIGHBETA));
-		sendBrainwave.addParameter("LOWALPHA", String.valueOf(LOWALPHA));
-		sendBrainwave.addParameter("LOWBETA", String.valueOf(LOWBETA));
-		sendBrainwave.addParameter("LOWGAMMA", String.valueOf(LOWGAMMA));
-		sendBrainwave.addParameter("MIDGAMMA", String.valueOf(MIDGAMMA));
-		sendBrainwave.addParameter("THETA", String.valueOf(THETA));
+		sendBrainwave.addParameter("DELTA", String.valueOf(delta));
+		sendBrainwave.addParameter("HIGHALPHA", String.valueOf(highalpha));
+		sendBrainwave.addParameter("HIGHBETA", String.valueOf(highbeta));
+		sendBrainwave.addParameter("LOWALPHA", String.valueOf(lowalpha));
+		sendBrainwave.addParameter("LOWBETA", String.valueOf(lowbeta));
+		sendBrainwave.addParameter("LOWGAMMA", String.valueOf(lowgamma));
+		sendBrainwave.addParameter("MIDGAMMA", String.valueOf(midgamma));
+		sendBrainwave.addParameter("THETA", String.valueOf(theta));
 		sendBrainwave.execute(EegURLs.POST_DATA);
-
-		WaveData.HIGH_ALPHA = HIGHALPHA;// FINISH FOR LATER
+		
+		WaveData.DELTA = delta;
+		WaveData.HIGH_ALPHA = highalpha;
+		WaveData.HIGH_BETA = highbeta;
+		WaveData.LOW_ALPHA = lowalpha;
+		WaveData.LOW_BETA = lowbeta;
+		WaveData.LOW_GAMMA = lowgamma;
+		WaveData.MID_GAMMA = midgamma;
+		WaveData.THETA = theta;
+		
 	}
 
 	public EEGIntentService(String name) {
