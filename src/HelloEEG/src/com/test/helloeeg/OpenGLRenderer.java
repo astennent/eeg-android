@@ -8,8 +8,8 @@ import android.opengl.GLSurfaceView.Renderer;
 
 public class OpenGLRenderer implements Renderer {
 	private Square square;
-	private float angle = 0;
 	float height = -3;
+	double velocity = 0.0;
 	boolean up = true;
 	boolean reset = false;
 	Meditation caller;
@@ -76,22 +76,22 @@ public class OpenGLRenderer implements Renderer {
 		// Restore to the matrix as it was before B.
 		gl.glPopMatrix();
 		
-		// Increse the angle.
-		
-		if ((WaveData.med>=50)&&(height<3.0)){
-			height+=.05;
+		if (WaveData.med < 50) {
+			velocity = -.05;
+		} else {
+			velocity = .05;
 		}
-		else{
-			if(WaveData.med<50){
-				if(height==-3.0){
-					reset=true;
-				}
-				if(height>-3.0){
-					height-=.05;
-				}
-			}
 			
+		//float prevHeight = height;
+		height += velocity;
+		
+		if (height < -3){
+			reset = true;
+			height = -3;
+		} else if (height > 3) {
+			height = 3;
 		}
+
 	}
 
 	/*
