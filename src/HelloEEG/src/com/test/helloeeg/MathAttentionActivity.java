@@ -125,7 +125,7 @@ public class MathAttentionActivity extends Activity {
 		}
 		
 		Log.v("FIN COUNTER=",String.valueOf(finCounter));
-		if (finCounter == 10){
+		if (finCounter >= 10){
 			RelativeLayout layout = (RelativeLayout) findViewById(R.id.relativeLayout1);
 			layout.removeView(tvTop);
 			layout.removeView(tvOp);
