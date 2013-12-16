@@ -11,5 +11,6 @@
     <string name="meditation">Meditation</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_meditation">Meditation</string>
+    <string name="title_activity_math_attention">MathAttentionActivity</string>
 
 </resources>

@@ -10,5 +10,6 @@ public class WaveData {
 	static int MID_GAMMA = 0;
 	static int THETA = 0;
 	static int med = 0;
+	static int att = 0;
 	static String EMOTION = "";
 }

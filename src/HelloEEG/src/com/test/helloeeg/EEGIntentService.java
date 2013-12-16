@@ -21,6 +21,7 @@ import com.neurosky.thinkgear.*;
 
 public class EEGIntentService extends IntentService {
 	int med =0;
+	int att =0;
 	public Handler mHandler;
 	@SuppressLint("HandlerLeak")
 	public Handler mBluetoothHandler = new Handler() {
@@ -63,7 +64,7 @@ public class EEGIntentService extends IntentService {
 				// tv.append("Heart rate: " + msg.arg1 + "\n");
 				break;
 			case TGDevice.MSG_ATTENTION:
-				// att = msg.arg1;
+				att = msg.arg1;
 				// tv.append("Attention: " + msg.arg1 + "\n");
 				// Log.v("HelloA", "Attention: " + att + "\n");
 				break;
@@ -96,7 +97,7 @@ public class EEGIntentService extends IntentService {
 				int MIDGAMMA = ep.midGamma;
 				int THETA = ep.theta;
 				sendBrainwaves(DELTA, HIGHALPHA, HIGHBETA, LOWALPHA,
-						LOWBETA, LOWGAMMA, MIDGAMMA, THETA, med);
+						LOWBETA, LOWGAMMA, MIDGAMMA, THETA, med, att);
 				Log.v("INTENTSERVICE", "sent");
 			default:
 				break;
@@ -144,7 +145,7 @@ public class EEGIntentService extends IntentService {
 	}
 
 	void sendBrainwaves(int DELTA, int HIGHALPHA, int HIGHBETA, int LOWALPHA,
-			int LOWBETA, int LOWGAMMA, int MIDGAMMA, int THETA, int med) {
+			int LOWBETA, int LOWGAMMA, int MIDGAMMA, int THETA, int med, int att) {
 
 		AsyncJsonParser sendBrainwave = new AsyncJsonParser(this);
 
@@ -185,6 +186,7 @@ public class EEGIntentService extends IntentService {
 		//Log.d("EMOTION1", WaveData.EMOTION);
 		sendBrainwave.execute(EegURLs.POST_DATA);
 		WaveData.med = med;
+		WaveData.att = att;
 		WaveData.EMOTION = "";
 		//Log.d("EMOTION2", WaveData.EMOTION);
 	}

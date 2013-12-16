@@ -18,4 +18,14 @@
         android:text="@string/meditation"
         android:onClick="meditation" />
 
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="71dp"
+        android:text="Math Attention"
+        android:onClick="mathAttention" />
+
 </RelativeLayout>

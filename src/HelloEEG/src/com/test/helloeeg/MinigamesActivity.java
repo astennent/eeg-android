@@ -27,5 +27,10 @@ public class MinigamesActivity extends Activity {
 		Intent intent = new Intent(v.getContext(), Meditation.class);
 		startActivityForResult(intent, 0);
 	}
+	
+	public void mathAttention(View v) {
+		Intent intent = new Intent(v.getContext(), MathAttentionActivity.class);
+		startActivityForResult(intent, 0);
+	}
 
 }

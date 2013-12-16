@@ -56,28 +56,7 @@ public class OpenGLRenderer implements Renderer {
 		// Translates 10 units into the screen.
 		gl.glTranslatef(0, 0, -10); 
 		
-		/*// SQUARE A
-		// Save the current matrix.
-		gl.glPushMatrix();
-		// Rotate square A counter-clockwise.
-		gl.glRotatef(angle, 0, 0, 1);
-		// Draw square A.	
-		square.draw(gl);
-		// Restore the last matrix.
-		gl.glPopMatrix();*/
-		
-		/*// SQUARE B
-		// Save the current matrix
-		gl.glPushMatrix();
-		// Rotate square B before moving it, making it rotate around A.
-		gl.glRotatef(-angle, 0, 0, 1);
-		// Move square B.
-		gl.glTranslatef(2, 0, 0);
-		// Scale it to 50% of square A
-		gl.glScalef(.5f, .5f, .5f);
-		// Draw square B.
-		square.draw(gl);		*/	
-		
+
 		// SQUARE C
 		// Save the current matrix
 		//gl.glPushMatrix();
