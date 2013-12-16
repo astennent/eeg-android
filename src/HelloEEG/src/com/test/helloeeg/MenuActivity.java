@@ -78,7 +78,7 @@ public class MenuActivity extends EEGActivity {
 			      return null;
 			   }  
 			});
-		graphView.setViewPort(0, 500);
+		graphView.setViewPort(0, 300);
 		//graphView.setScrollable(true);
 		graphView.setScalable(true);
 		graphView.setShowLegend(true);
@@ -115,14 +115,14 @@ public class MenuActivity extends EEGActivity {
 	                @Override
 	                public void run() {
 	                	x++;
-	        			delta.appendData(new GraphView.GraphViewData(x, WaveData.DELTA), true, 300);
-	        			highAlpha.appendData(new GraphView.GraphViewData(x, WaveData.HIGH_ALPHA), true, 300);
-	        			lowAlpha.appendData(new GraphView.GraphViewData(x, WaveData.LOW_ALPHA), true, 300);
-	        			highBeta.appendData(new GraphView.GraphViewData(x, WaveData.HIGH_BETA), true, 300);
-	        			lowBeta.appendData(new GraphView.GraphViewData(x, WaveData.LOW_BETA), true, 300);
-	        			midGamma.appendData(new GraphView.GraphViewData(x, WaveData.MID_GAMMA), true, 300);
-	        			lowGamma.appendData(new GraphView.GraphViewData(x, WaveData.LOW_GAMMA), true, 300);
-	        			theta.appendData(new GraphView.GraphViewData(x, WaveData.THETA), true, 300);
+	        			delta.appendData(new GraphView.GraphViewData(x, WaveData.DELTA), true, 5000);
+	        			highAlpha.appendData(new GraphView.GraphViewData(x, WaveData.HIGH_ALPHA), true, 5000);
+	        			lowAlpha.appendData(new GraphView.GraphViewData(x, WaveData.LOW_ALPHA), true, 5000);
+	        			highBeta.appendData(new GraphView.GraphViewData(x, WaveData.HIGH_BETA), true, 5000);
+	        			lowBeta.appendData(new GraphView.GraphViewData(x, WaveData.LOW_BETA), true, 5000);
+	        			midGamma.appendData(new GraphView.GraphViewData(x, WaveData.MID_GAMMA), true, 5000);
+	        			lowGamma.appendData(new GraphView.GraphViewData(x, WaveData.LOW_GAMMA), true, 5000);
+	        			theta.appendData(new GraphView.GraphViewData(x, WaveData.THETA), true, 5000);
 	        			Log.d("GRAPH", ""+x);
 	                }
 	            });
