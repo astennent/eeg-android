@@ -98,27 +98,16 @@ public class OpenGLRenderer implements Renderer {
 		gl.glPopMatrix();
 		
 		// Increse the angle.
-		angle++;
-		if(height == -3.0){
-			reset = true;
-			//this.caller.stopTime();
-			//this.caller.resetTime();
-			//this.caller.startTime();
-		}
-		if(up){
-			if(height < 3.0){
-				height = (float) (height + .05);
-			}
-			else{
-				up = false;
-			}
+		
+		if ((WaveData.med>=50)&&(height<3.0)){
+			height+=.05;
 		}
 		else{
-			if(height > -3.0){
-				height = (float) (height -.05);
-			}
-			else{
-				up = true;
+			if(WaveData.med<50){
+				if(height<=-3.0){
+					reset=true;
+				}
+				height-=.05;
 			}
 			
 		}
