@@ -71,11 +71,12 @@ public class LoginActivity extends EEGActivity {
 		setContentView(R.layout.activity_login);
 
 		// Set up the login form.
-		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
+		mEmail = "ubuntu";
 		mEmailView = (EditText) findViewById(R.id.email);
 		mEmailView.setText(mEmail);
 
 		mPasswordView = (EditText) findViewById(R.id.password);
+		mPasswordView.setText("password");
 		mPasswordView
 				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 					@Override
@@ -110,7 +111,7 @@ public class LoginActivity extends EEGActivity {
 					if (m.equals("success")) {
 						launchMenuActivity();
 					} else {
-						mEmailView.setError(m);
+						stopLaunch(m);
 					}
 				} catch (JSONException e) {
 					Log.e("LoginActivity", e.getMessage());
@@ -118,6 +119,12 @@ public class LoginActivity extends EEGActivity {
 
 			}
 		};
+	}
+
+	//Called when invalid credentials are provided.
+	private void stopLaunch(String errorMessage) {
+		mEmailView.setError(errorMessage);
+		showProgress(false);
 	}
 	
 	private void launchMenuActivity() {
@@ -128,7 +135,7 @@ public class LoginActivity extends EEGActivity {
 		startActivity(activityIntent);
 		finish();
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -150,69 +157,40 @@ public class LoginActivity extends EEGActivity {
 		mEmail = mEmailView.getText().toString();
 		mPassword = mPasswordView.getText().toString();
 
-		boolean cancel = false;
-		View focusView = null;
+		// Show a progress spinner, and kick off a background task to
+		// perform the user login attempt.
+		mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
+		showProgress(true);
 
-		// Check for a valid password.
-		if (TextUtils.isEmpty(mPassword)) {
-			mPasswordView.setError(getString(R.string.error_field_required));
-			focusView = mPasswordView;
-			cancel = true;
-		} else if (mPassword.length() < 4) {
-			mPasswordView.setError(getString(R.string.error_invalid_password));
-			focusView = mPasswordView;
-			cancel = true;
+		String username = mEmail;
+		String password = mPassword;
+
+		// Save the input in preferences, where it will be used by the
+		// AsyncJSONParser
+		String text = username + ":" + password;
+
+		byte[] data = null;
+		try {
+			data = text.getBytes("UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
 		}
+		String base64 = Base64.encodeToString(data, Base64.DEFAULT);
 
-		// Check for a valid email address.
-		if (TextUtils.isEmpty(mEmail)) {
-			mEmailView.setError(getString(R.string.error_field_required));
-			focusView = mEmailView;
-			cancel = true;
-		} else if (!mEmail.contains("@")) {
-			mEmailView.setError(getString(R.string.error_invalid_email));
-			focusView = mEmailView;
-			cancel = true;
-		}
+		SharedPreferences pref = getApplicationContext().getSharedPreferences(
+				"MyPref", 0); // 0 - for private mode
+		Editor editor = pref.edit();
+		editor.putString("HTTP_AUTHORIZATION", base64);
+		editor.putString("username", username);
+		editor.commit();
 
-		if (cancel) {
-			// There was an error; don't attempt login and focus the first
-			// form field with an error.
-			focusView.requestFocus();
-		} else {
-			// Show a progress spinner, and kick off a background task to
-			// perform the user login attempt.
-			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
-			showProgress(true);
+		/*
+		 * AsyncJsonParser ajp = new AsyncJsonParser(this);
+		 * ajp.addParameter("HIGHALPHA", poop) ajp.execute(params)
+		 */
 
-			String username = "ubuntu";
-			String password = "password";
+		new AsyncJsonParser(this).execute(EegURLs.CHECK_LOGIN);
 
-			// Save the input in preferences, where it will be used by the
-			// AsyncJSONParser
-			String text = username + ":" + password;
-
-			byte[] data = null;
-			try {
-				data = text.getBytes("UTF-8");
-			} catch (UnsupportedEncodingException e1) {
-				e1.printStackTrace();
-			}
-			String base64 = Base64.encodeToString(data, Base64.DEFAULT);
-
-			SharedPreferences pref = getApplicationContext()
-					.getSharedPreferences("MyPref", 0); // 0 - for private mode
-			Editor editor = pref.edit();
-			editor.putString("HTTP_AUTHORIZATION", base64);
-			editor.putString("username", username);
-			editor.commit();
-
-			/*AsyncJsonParser ajp = new AsyncJsonParser(this);
-			ajp.addParameter("HIGHALPHA", poop)
-			ajp.execute(params)*/
-			
-			new AsyncJsonParser(this).execute(EegURLs.CHECK_LOGIN);
-		}
 	}
 
 	/**
