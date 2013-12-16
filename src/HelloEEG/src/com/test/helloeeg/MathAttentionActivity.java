@@ -6,6 +6,7 @@ import java.util.TimerTask;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
+import com.jjoe64.graphview.CustomLabelFormatter;
 import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
 
@@ -131,16 +132,26 @@ public class MathAttentionActivity extends Activity {
 			layout.removeView(tvOp);
 			layout.removeView(tvBottom);
 			layout.removeView(uSolution);
-			GraphView graphView = new LineGraphView(this,"Graph");
-			GraphViewData[] attData = new GraphViewData[attList.size()];
-			for (int i = 0; i < attList.size(); i++) {
-				attData[i] = new GraphViewData(i, attList.get(i));
+			GraphView graphView = new LineGraphView(this,"Focus Over Time");
+			GraphViewData[] attData = new GraphViewData[(attList.size()-6)];
+			for (int i = 0; i < (attList.size()-6); i++) {
+				Log.d("i", ""+i);
+				attData[i] = new GraphViewData(i, attList.get(i+6));
 			}
 			GraphViewSeries graphViewList = new GraphViewSeries("Attention", null, attData);
 			graphView.addSeries(graphViewList);
+			/*graphView.setCustomLabelFormatter(new CustomLabelFormatter() {  
+				   @Override
+				   public String formatLabel(double value, boolean isValueX) {  
+				      if (isValueX) {
+				    	  return ""+attList.size();
+				      }
+				      return null;
+				   }  
+				});*/
 			graphView.getGraphViewStyle().setTextSize(15);
 			graphView.setVerticalLabels(new String[] {"100", "90", "80", "70", "60", "50", "40", "30", "20", "10", "0"});
-			graphView.setHorizontalLabels(new String[] {""});
+			
 			
 			layout.addView(graphView);
 		}
