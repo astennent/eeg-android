@@ -83,10 +83,12 @@ public class OpenGLRenderer implements Renderer {
 		}
 		else{
 			if(WaveData.med<50){
-				if(height<=-3.0){
+				if(height==-3.0){
 					reset=true;
 				}
-				height-=.05;
+				if(height>-3.0){
+					height-=.05;
+				}
 			}
 			
 		}
