@@ -9,14 +9,14 @@
 
         <Button
             android:id="@+id/emotionsButton"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/emotions" />
 
         <Button
             android:id="@+id/minigamesButton"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/minigames" />
 

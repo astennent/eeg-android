@@ -11,6 +11,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.jjoe64.graphview.GraphView.LegendAlign;
 import com.jjoe64.graphview.GraphViewSeries;
+import com.jjoe64.graphview.GraphViewSeries.GraphViewSeriesStyle;
 import com.jjoe64.graphview.LineGraphView;
 
 public class MenuActivity extends EEGActivity {
@@ -47,14 +49,14 @@ public class MenuActivity extends EEGActivity {
 		HTTP_AUTHORIZATION = (mPreferences.getString("HTTP_AUTHORIZATION", ""));
 		
 		x = 0;
-		delta = new GraphViewSeries("Delta", null /*TODO Color*/, new GraphViewData[] { new GraphViewData(x, WaveData.DELTA) });
-		highAlpha = new GraphViewSeries("High Alpha", null, new GraphViewData[] { new GraphViewData(x, WaveData.HIGH_ALPHA) });
-		lowAlpha = new GraphViewSeries("Low Alpha", null, new GraphViewData[] { new GraphViewData(x, WaveData.LOW_ALPHA) });
-		highBeta = new GraphViewSeries("High Beta", null, new GraphViewData[] { new GraphViewData(x, WaveData.HIGH_BETA) });
-		lowBeta = new GraphViewSeries("Low Beta", null, new GraphViewData[] { new GraphViewData(x, WaveData.LOW_BETA) });
-		lowGamma = new GraphViewSeries("Low Gamma", null, new GraphViewData[] { new GraphViewData(x, WaveData.LOW_GAMMA) });
-		midGamma = new GraphViewSeries("Mid Gamma", null, new GraphViewData[] { new GraphViewData(x, WaveData.MID_GAMMA) });
-		theta = new GraphViewSeries("Theta", null, new GraphViewData[] { new GraphViewData(x, WaveData.THETA) });
+		delta = new GraphViewSeries("Delta", new GraphViewSeriesStyle(-14500983, 2), new GraphViewData[] { new GraphViewData(x, WaveData.DELTA) });
+		highAlpha = new GraphViewSeries("High Alpha", new GraphViewSeriesStyle(-3368652, 2), new GraphViewData[] { new GraphViewData(x, WaveData.HIGH_ALPHA) });
+		lowAlpha = new GraphViewSeries("Low Alpha", new GraphViewSeriesStyle(-1087000, 2), new GraphViewData[] { new GraphViewData(x, WaveData.LOW_ALPHA) });
+		highBeta = new GraphViewSeries("High Beta", new GraphViewSeriesStyle(-14432530, 2), new GraphViewData[] { new GraphViewData(x, WaveData.HIGH_BETA) });
+		lowBeta = new GraphViewSeries("Low Beta", new GraphViewSeriesStyle(-10027161, 2), new GraphViewData[] { new GraphViewData(x, WaveData.LOW_BETA) });
+		lowGamma = new GraphViewSeries("Low Gamma", new GraphViewSeriesStyle(-39366, 2), new GraphViewData[] { new GraphViewData(x, WaveData.LOW_GAMMA) });
+		midGamma = new GraphViewSeries("Mid Gamma", new GraphViewSeriesStyle(-16750848, 2), new GraphViewData[] { new GraphViewData(x, WaveData.MID_GAMMA) });
+		theta = new GraphViewSeries("Theta", new GraphViewSeriesStyle(-6728192, 2), new GraphViewData[] { new GraphViewData(x, WaveData.THETA) });
 		
 		graphView = new LineGraphView(this, "Graph");
 		graphView.addSeries(delta);
@@ -66,7 +68,7 @@ public class MenuActivity extends EEGActivity {
 		graphView.addSeries(midGamma);
 		graphView.addSeries(theta);
 		graphView.getGraphViewStyle().setTextSize(15);
-		graphView.setHorizontalLabels(new String[] {"5 ago", "4 ago", "3 ago", "2 ago", "1 ago"});  
+		graphView.setHorizontalLabels(new String[] {"5 minutes ago", "4 minutes ago", "3 minutes ago", "2 minutes ago", "1 minute ago"});  
 		graphView.setCustomLabelFormatter(new CustomLabelFormatter() {  
 			   @Override
 			   public String formatLabel(double value, boolean isValueX) {  
