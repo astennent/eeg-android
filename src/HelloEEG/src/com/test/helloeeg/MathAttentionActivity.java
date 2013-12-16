@@ -5,6 +5,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GraphView.GraphViewData;
+import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
 
 import android.opengl.GLSurfaceView;
@@ -130,6 +132,16 @@ public class MathAttentionActivity extends Activity {
 			layout.removeView(tvBottom);
 			layout.removeView(uSolution);
 			GraphView graphView = new LineGraphView(this,"Graph");
+			GraphViewData[] attData = new GraphViewData[attList.size()];
+			for (int i = 0; i < attList.size(); i++) {
+				attData[i] = new GraphViewData(i, attList.get(i));
+			}
+			GraphViewSeries graphViewList = new GraphViewSeries("Attention", null, attData);
+			graphView.addSeries(graphViewList);
+			graphView.getGraphViewStyle().setTextSize(15);
+			graphView.setVerticalLabels(new String[] {"0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"});
+			graphView.setHorizontalLabels(new String[] {""});
+			
 			layout.addView(graphView);
 		}
 		
