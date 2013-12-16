@@ -58,7 +58,7 @@ public class MenuActivity extends EEGActivity {
 		midGamma = new GraphViewSeries("Mid Gamma", new GraphViewSeriesStyle(-16750848, 2), new GraphViewData[] { new GraphViewData(x, WaveData.MID_GAMMA) });
 		theta = new GraphViewSeries("Theta", new GraphViewSeriesStyle(-6728192, 2), new GraphViewData[] { new GraphViewData(x, WaveData.THETA) });
 		
-		graphView = new LineGraphView(this, "Graph");
+		graphView = new LineGraphView(this, "Brainwave Activity");
 		graphView.addSeries(delta);
 		graphView.addSeries(highAlpha);
 		graphView.addSeries(lowAlpha);
@@ -68,7 +68,19 @@ public class MenuActivity extends EEGActivity {
 		graphView.addSeries(midGamma);
 		graphView.addSeries(theta);
 		graphView.getGraphViewStyle().setTextSize(15);
-		graphView.setHorizontalLabels(new String[] {"5 minutes ago", "4 minutes ago", "3 minutes ago", "2 minutes ago", "1 minute ago"});  
+		graphView.getGraphViewStyle().setNumHorizontalLabels(15);
+		graphView.getGraphViewStyle().setVerticalLabelsWidth(75);
+		//graphView.setHorizontalLabels(new String[] {""+(), } );
+		//graphView.setHorizontalLabels(new String[] {"5 minutes ago", "4 minutes ago", "3 minutes ago", "2 minutes ago", "1 minute ago"});  
+		/*graphView.setCustomLabelFormatter(new CustomLabelFormatter() {  
+			   @Override
+			   public String formatLabel(double value, boolean isValueX) {  
+			      if (!isValueX) {
+			    	  return ""+x;
+			      }
+			      return null;
+			   }  
+			});*/
 		graphView.setCustomLabelFormatter(new CustomLabelFormatter() {  
 			   @Override
 			   public String formatLabel(double value, boolean isValueX) {  
@@ -79,7 +91,7 @@ public class MenuActivity extends EEGActivity {
 			   }  
 			});
 		graphView.setViewPort(0, 300);
-		//graphView.setScrollable(true);
+		graphView.setScrollable(true);
 		graphView.setScalable(true);
 		graphView.setShowLegend(true);
 		graphView.setLegendAlign(LegendAlign.TOP);
